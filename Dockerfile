@@ -8,6 +8,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-EXPOSE 8501
+EXPOSE 8080
 
-ENTRYPOINT ["streamlit", "run", "harrypotter_bot.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["python", "-m", "streamlit", "run", "harrypotter_bot.py", "--server.port=8080", "--server.address=0.0.0.0"]
