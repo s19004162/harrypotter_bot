@@ -76,9 +76,6 @@ def harry_potter(text: str):
 
                 This is the input from a book : {input_from_book}
                 This is the original question : {human_input}
-
-                
-                Finally, please answer in German.
             """
     
     prompt_msg = PromptTemplate(
@@ -93,11 +90,15 @@ def harry_potter(text: str):
             temperature=0,
     )
 
-    llm_chain = LLMChain(llm=llm, prompt=prompt_msg, verbose=False)
+    llm_chain = LLMChain(llm=llm, prompt=prompt_msg, verbose=True)
 
     response = llm_chain.invoke({'human_input' : text, 'input_from_book' : docs})
 
-    return response
+    print("-----------------------------------------")
+    print(response["text"])
+    print("-----------------------------------------")
+
+    return response["text"]
 
 def main():
 

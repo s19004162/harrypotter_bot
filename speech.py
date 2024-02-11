@@ -12,7 +12,7 @@ def texttospeech(msg):
 
     speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=service_region)
     # Note: the voice setting will not overwrite the voice element in input SSML.
-    speech_config.speech_synthesis_voice_name = "de-DE-MajaNeural"
+    speech_config.speech_synthesis_voice_name = "en-US-JennyNeural"
 
     text = msg
 
