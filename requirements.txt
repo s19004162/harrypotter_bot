@@ -1,0 +1,32 @@
+# General
+python-dotenv
+load_dotenv
+utils
+
+# streamlit
+streamlit
+streamlit_card
+
+# Langchain
+langchain
+langchain_community
+langchain-openai
+langchain-experimental
+
+# Azure
+azure-cognitiveservices-speech
+azure-search-documents==11.4.0b8
+azure-identity
+azure-ai-formrecognizer
+azure-ai-textanalytics
+
+# PDF
+pypdf
+tiktoken
+
+# Debug
+watchdog
+
+# SQLDB
+pyodbc
+sqlalchemy

@@ -1,0 +1,8 @@
+---
+streamlit:
+  title: "Harry Potter Bot"
+  tab_title: "Ore-no-chatbot"
+  logo: "./images/bot.png"
+  avatar: "./images/bot.png"
+  assistant_intro_message: "I'm a bot to search Harry potter. How can I help?" 
+  about: "this is a demo bot"
