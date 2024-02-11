@@ -12,7 +12,7 @@ german_teacher bot application
 # How to install streamlit
 # https://docs.streamlit.io/get-started/installation/command-line
 
-cd german_teacher 
+cd harrypotter_bot 
 
 python -m venv .venv
 
@@ -26,9 +26,9 @@ pip install -r requirements.txt
 # Set-up .env file (Manually set up environmental variables)
 
 # Run application
-streamlit run german_teacher.py
+streamlit run harrypotter_bot.py
 
-python -m streamlit run german_teacher.py
+python -m streamlit run harrypotter_bot.py
 
 # To finish virtual environment
 deactivate
