@@ -36,3 +36,8 @@ python -m streamlit run harrypotter_bot.py
 # To finish virtual environment
 deactivate
 ```
+
+```
+docker build -t harrypotter .
+
+```
