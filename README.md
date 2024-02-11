@@ -1,5 +1,5 @@
-# german_teacher
-german_teacher bot application
+# harry_potter
+harry_potter bot application
 
 ## How to use
 
