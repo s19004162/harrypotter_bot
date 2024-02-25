@@ -25,6 +25,9 @@ embeddings = AzureOpenAIEmbeddings(
 
 index_name: str = "langchain-vector-demo"
 
+print("--- start PDF AzureSearch ---")
+print(vector_store_address)
+
 vector_store: AzureSearch = AzureSearch(
     azure_search_endpoint=vector_store_address,
     azure_search_key=vector_store_password,

@@ -33,8 +33,11 @@ streamlit run harrypotter_bot.py
 # Run application(windows)
 python -m streamlit run harrypotter_bot.py
 
-# To finish virtual environment
+# To finish virtual environment(Linux)
 deactivate
+
+# To finish virtual environment(windows)
+.venv/Scripts/deactivate.bat
 ```
 
 ```

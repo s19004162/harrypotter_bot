@@ -7,8 +7,6 @@ from langchain_community.chat_message_histories import StreamlitChatMessageHisto
 from langchain_community.callbacks import get_openai_callback
 from langchain.schema import messages_to_dict
 
-# from speech import * #contains text to speech function
-
 import streamlit as st
 import yaml
 
@@ -18,19 +16,23 @@ from langchain_community.agent_toolkits import AzureCognitiveServicesToolkit
 from langchain_openai import AzureOpenAIEmbeddings
 from langchain.vectorstores.azuresearch import AzureSearch
 
-from speech import * #contains text to speech function
+from modules.speech import * #contains text to speech function
+from modules.azure_search import * #contains Azure search function
 
 from langchain_community.utilities import BingSearchAPIWrapper
 
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 
+# Load environmental variables from .env file
+load_dotenv(dotenv_path='./.env')
+
 @tool
 def harry_potter(text: str):
     """_summary_
-    This is a tool to answer about harry potter.
+    This is a tool to answer about the book of harry potter.
     This tool can answer the infromation of the books of harry potter.
-    When user asks questions about harry potter, please use this function.
+    When user asks questions about the book of harry potter, please use this function.
 
     Args:
         text (str): _description_
@@ -38,35 +40,26 @@ def harry_potter(text: str):
 
     Returns:
         _type_: _description_
-        Return is the result of Azure AI search
+        Return is the content of the book of harry potter
     """
-    
-    embedding_model: str = os.environ.get('embedding_model')
-    embedding_model_api_version: str = os.environ.get('embedding_model_api_version')
-    vector_store_address: str = os.environ.get('AZURE_SEARCH_ENDPOINT')
-    vector_store_password: str = os.environ.get('AZURE_SEARCH_ADMIN_KEY')
-    
-    embeddings = AzureOpenAIEmbeddings(
+  
+    llm = AzureChatOpenAI(
         default_headers={"Ocp-Apim-Subscription-Key": os.environ.get('SUBSC_KEY')},
-        deployment=embedding_model,
-        openai_api_version=embedding_model_api_version,
+        azure_deployment=os.environ.get('AZURE_OPENAI_DEPLOYMENT'),
+        openai_api_version=os.environ.get('AZURE_OPENAI_API_VERSION'),
+        temperature=0,
     )
 
-    index_name: str = "langchain-vector-demo"
+    response_from_azure_search = azure_search(text)
 
-    vector_store: AzureSearch = AzureSearch(
-        azure_search_endpoint=vector_store_address,
-        azure_search_key=vector_store_password,
-        index_name=index_name,
-        embedding_function=embeddings.embed_query,
-    )
-    
-    # Perform a similarity search
-    docs = vector_store.similarity_search(
-        query=text,
-        k=2,
-        search_type="similarity",
-    )
+    print("----- Return from azure_search -----")
+    print(response_from_azure_search)
+
+    # for result in response_from_azure_search: 
+
+    #     print("----- start printing -----")
+    #     print(result['content'])
+    #     return result['content']
 
     # Prompt template
     template = """
@@ -83,16 +76,10 @@ def harry_potter(text: str):
         template=template
         )
 
-    llm = AzureChatOpenAI(
-            default_headers={"Ocp-Apim-Subscription-Key": os.environ.get('SUBSC_KEY')},
-            azure_deployment="AZ-kimototy-gpt-35-turbo",
-            openai_api_version="2023-05-15",
-            temperature=0,
-    )
-
     llm_chain = LLMChain(llm=llm, prompt=prompt_msg, verbose=True)
 
-    response = llm_chain.invoke({'human_input' : text, 'input_from_book' : docs})
+    print("----- start llm chain -----")
+    response = llm_chain.invoke({'human_input' : text, 'input_from_book' : response_from_azure_search})
 
     print("-----------------------------------------")
     print(response["text"])
@@ -117,9 +104,6 @@ def main():
             'user': None,
             'assistant': config['streamlit']['avatar']
         }
-
-        # Load environmental variables from .env file
-        load_dotenv(dotenv_path='./.env')
 
         #-------------------------------------
         # End Reading config file
@@ -166,8 +150,8 @@ def main():
 
         llm = AzureChatOpenAI(
             default_headers={"Ocp-Apim-Subscription-Key": os.environ.get('SUBSC_KEY')},
-            azure_deployment="AZ-kimototy-gpt-35-turbo",
-            openai_api_version="2023-05-15",
+            azure_deployment=os.environ.get('AZURE_OPENAI_DEPLOYMENT'),
+            openai_api_version=os.environ.get('AZURE_OPENAI_API_VERSION'),
             temperature=0,
         )
 
